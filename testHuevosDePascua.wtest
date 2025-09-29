@@ -1,12 +1,47 @@
+/*
+matrioshka, huevoRepostero, conejo, huevoMixto
+
+- Se inicia el juego de cacería, escondiendo los huevos de pascua en este orden: la matrioshka (con el blister adento con 14 huevitos de chocolate con leche) y de decoración una flor con 7 pétalos, el huevoRepostero, el conejo y el huevoMixto.
+- el de mayor cantidad de calorías es la matrioshka
+- En un solo test, registrar las siguientes acciones y verificar que los test corren bien:
+    - el juego registra que Ana encontró el primero de los huevos escondidos.
+    - En total quedan 3 huevos por encontrar y quedan 2 que tienen chocolate blanco 
+    - Todavía no fue encontrado el conejo
+    - Verificar la lista de los que tienen chocolate blanco, deben ser huevoRepostero y el huevoMixto
+    - Tito encuentra el huevoMixto
+    - Jose encuentra los restantes huevos
+    - Verificar que Ana y Jose quedan enfermos.
+*/
+
+
 import huevosDePascua.*
 
-describe "group of tests" {
-
-  test "test 1" {
-    assert.equals(50+50, 100)
+describe "Caceria huevos de Pascua" {
+//- Se inicia el juego de cacería, escondiendo los huevos de pascua en este orden: la matrioshka (con el blister adento con 14 huevitos de chocolate con leche) y de decoración una flor con 7 pétalos, el huevoRepostero, el conejo y el huevoMixto.
+//La matrioshka ya tiene seteadas esa cantidad de petalos y decoracion
+  method initialize() {
+    (caceria.huevosABuscar()).addAll(caceria.huevosDelJuego())
+    //Lo demas esta inicializado por defecto en cada objeto    
   }
-  test "test 2" {
-    assert.that(true)
-  }
 
+  test "Conjunto de Tests" {
+    caceria.encontrarPrimerHuevo(ana)
+    assert.that((ana.huevosConsumidos()).contains(matrioshka))
+    assert.that((ana.huevosConsumidos()).size() == 1)
+    assert.equals(1, ana.huevosConsumidos().size())
+    assert.that(caceria.huevosABuscar().size() == 3)
+    assert.that(caceria.huevosPorEncontrarChocoBlanco().size() == 2)
+    assert.that(caceria.huevosABuscar().contains(conejo))
+    assert.that(caceria.huevosPorEncontrarChocoBlanco().contains(huevoRepostero))
+    assert.that(caceria.huevosPorEncontrarChocoBlanco().contains(huevoMixto))
+    caceria.encontrarUnHuevo(tito, huevoMixto)
+    assert.that((tito.huevosConsumidos()).contains(huevoMixto))
+    caceria.encontrarTodosLosHuevosRestantes(jose)
+    assert.that((jose.huevosConsumidos()).contains(conejo))
+    assert.that((jose.huevosConsumidos()).contains(huevoRepostero))
+
+    //caceria.encontrarHuevosRestantes(jose)
+    assert.that(ana.estaEnfermo())
+    assert.that(jose.estaEnfermo())
+  }
 }
